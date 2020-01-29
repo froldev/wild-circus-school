@@ -53,9 +53,14 @@ class SchoolClass
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Artist", mappedBy="relation")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Artist", mappedBy="schoolClass")
      */
     private $artists;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Inscription", inversedBy="schoolClasses")
+     */
+    private $inscription;
 
     public function __construct()
     {
@@ -103,7 +108,7 @@ class SchoolClass
         return $this;
     }
 
-    public function getStartDate(): ?DateTime
+    public function getStartDate(): DateTime
     {
         return $this->startDate;
     }
@@ -151,7 +156,7 @@ class SchoolClass
     {
         if (!$this->artists->contains($artist)) {
             $this->artists[] = $artist;
-            $artist->addRelation($this);
+            $artist->addSchoolClass($this);
         }
 
         return $this;
@@ -161,8 +166,20 @@ class SchoolClass
     {
         if ($this->artists->contains($artist)) {
             $this->artists->removeElement($artist);
-            $artist->removeRelation($this);
+            $artist->removeSchoolClass($this);
         }
+
+        return $this;
+    }
+
+    public function getInscription(): ?inscription
+    {
+        return $this->inscription;
+    }
+
+    public function setInscription(?inscription $inscription): self
+    {
+        $this->inscription = $inscription;
 
         return $this;
     }

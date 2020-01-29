@@ -12,6 +12,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
+    const ROLE_ADMIN = "ROLE_ADMIN";
+    const ROLE_USER = "ROLE_USER";
+    const TYPE_ROLES = [
+        self::ROLE_ADMIN,
+        self::ROLE_USER,
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -51,13 +58,14 @@ class User implements UserInterface
     private $lastName;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Inscription", mappedBy="relation")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Inscription", inversedBy="users")
      */
-    private $inscriptions;
+    private $inscription;
 
     public function __construct()
     {
         $this->inscriptions = new ArrayCollection();
+        $this->inscription = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,28 +183,26 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Inscription[]
+     * @return Collection|inscription[]
      */
-    public function getInscriptions(): Collection
+    public function getInscription(): Collection
     {
-        return $this->inscriptions;
+        return $this->inscription;
     }
 
-    public function addInscription(Inscription $inscription): self
+    public function addInscription(inscription $inscription): self
     {
-        if (!$this->inscriptions->contains($inscription)) {
-            $this->inscriptions[] = $inscription;
-            $inscription->addRelation($this);
+        if (!$this->inscription->contains($inscription)) {
+            $this->inscription[] = $inscription;
         }
 
         return $this;
     }
 
-    public function removeInscription(Inscription $inscription): self
+    public function removeInscription(inscription $inscription): self
     {
-        if ($this->inscriptions->contains($inscription)) {
-            $this->inscriptions->removeElement($inscription);
-            $inscription->removeRelation($this);
+        if ($this->inscription->contains($inscription)) {
+            $this->inscription->removeElement($inscription);
         }
 
         return $this;

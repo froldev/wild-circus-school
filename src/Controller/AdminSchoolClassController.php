@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/class", name="admin_class_")
+ * @Route("admin/class", name="admin_class_")
  */
 class AdminSchoolClassController extends AbstractController
 {
@@ -20,10 +20,8 @@ class AdminSchoolClassController extends AbstractController
      */
     public function index(SchoolClassRepository $schoolClassRepository): Response
     {
-        return $this->render('adminSchoolClass/index.html.twig', [
-            'classes' => $schoolClassRepository->findBy([], [
-                'name' => 'ASC',
-            ]),
+        return $this->render('adminClass/index.html.twig', [
+            'school_classes' => $schoolClassRepository->findAll(),
         ]);
     }
 
@@ -44,8 +42,8 @@ class AdminSchoolClassController extends AbstractController
             return $this->redirectToRoute('admin_class_index');
         }
 
-        return $this->render('adminSchoolClass/new.html.twig', [
-            'class' => $schoolClass,
+        return $this->render('adminClass/new.html.twig', [
+            'school_class' => $schoolClass,
             'form' => $form->createView(),
         ]);
     }
@@ -55,8 +53,8 @@ class AdminSchoolClassController extends AbstractController
      */
     public function show(SchoolClass $schoolClass): Response
     {
-        return $this->render('adminSchoolClass/show.html.twig', [
-            'class' => $schoolClass,
+        return $this->render('adminClass/show.html.twig', [
+            'school_class' => $schoolClass,
         ]);
     }
 
@@ -74,8 +72,8 @@ class AdminSchoolClassController extends AbstractController
             return $this->redirectToRoute('admin_class_index');
         }
 
-        return $this->render('adminSchoolClass/edit.html.twig', [
-            'class' => $schoolClass,
+        return $this->render('adminClass/edit.html.twig', [
+            'school_class' => $schoolClass,
             'form' => $form->createView(),
         ]);
     }

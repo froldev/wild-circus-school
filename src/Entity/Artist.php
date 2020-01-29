@@ -36,11 +36,12 @@ class Artist
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\SchoolClass", inversedBy="artists")
      */
-    private $relation;
+    private $schoolClass;
 
     public function __construct()
     {
         $this->relation = new ArrayCollection();
+        $this->schoolClass = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -87,24 +88,24 @@ class Artist
     /**
      * @return Collection|SchoolClass[]
      */
-    public function getRelation(): Collection
+    public function getSchoolClass(): Collection
     {
-        return $this->relation;
+        return $this->schoolClass;
     }
 
-    public function addRelation(SchoolClass $relation): self
+    public function addSchoolClass(SchoolClass $schoolClass): self
     {
-        if (!$this->relation->contains($relation)) {
-            $this->relation[] = $relation;
+        if (!$this->schoolClass->contains($schoolClass)) {
+            $this->schoolClass[] = $schoolClass;
         }
 
         return $this;
     }
 
-    public function removeRelation(SchoolClass $relation): self
+    public function removeSchoolClass(SchoolClass $schoolClass): self
     {
-        if ($this->relation->contains($relation)) {
-            $this->relation->removeElement($relation);
+        if ($this->schoolClass->contains($schoolClass)) {
+            $this->schoolClass->removeElement($schoolClass);
         }
 
         return $this;

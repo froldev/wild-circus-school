@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RepresentationRepository")
@@ -29,7 +31,9 @@ class Representation
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="datetime")
+     * @Assert\DateTime
+     * @Assert\NotBlank
      */
     private $startDate;
 
@@ -41,11 +45,13 @@ class Representation
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="representation")
      */
-    private $relation;
+    private $inscription;
 
     public function __construct()
     {
         $this->relation = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
+        $this->inscription = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,12 +83,12 @@ class Representation
         return $this;
     }
 
-    public function getStartDate(): ?string
+    public function getStartDate(): DateTime
     {
         return $this->startDate;
     }
 
-    public function setStartDate(string $startDate): self
+    public function setStartDate(DateTime $startDate): self
     {
         $this->startDate = $startDate;
 
@@ -102,30 +108,30 @@ class Representation
     }
 
     /**
-     * @return Collection|Inscription[]
+     * @return Collection|inscription[]
      */
-    public function getRelation(): Collection
+    public function getInscription(): Collection
     {
-        return $this->relation;
+        return $this->inscription;
     }
 
-    public function addRelation(Inscription $relation): self
+    public function addInscription(inscription $inscription): self
     {
-        if (!$this->relation->contains($relation)) {
-            $this->relation[] = $relation;
-            $relation->setRepresentation($this);
+        if (!$this->inscription->contains($inscription)) {
+            $this->inscription[] = $inscription;
+            $inscription->setRepresentation($this);
         }
 
         return $this;
     }
 
-    public function removeRelation(Inscription $relation): self
+    public function removeInscription(inscription $inscription): self
     {
-        if ($this->relation->contains($relation)) {
-            $this->relation->removeElement($relation);
+        if ($this->inscription->contains($inscription)) {
+            $this->inscription->removeElement($inscription);
             // set the owning side to null (unless already changed)
-            if ($relation->getRepresentation() === $this) {
-                $relation->setRepresentation(null);
+            if ($inscription->getRepresentation() === $this) {
+                $inscription->setRepresentation(null);
             }
         }
 

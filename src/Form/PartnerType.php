@@ -2,36 +2,22 @@
 
 namespace App\Form;
 
-use App\Entity\Artist;
 use App\Entity\Inscription;
-use App\Entity\SchoolClass;
+use App\Entity\Partner;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SchoolClassType extends AbstractType
+class PartnerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name', TextType::class)
-            ->add('duration', IntegerType::class)
-            ->add('price', IntegerType::class)
-            ->add('startDate', DateType::class, [
-                'widget' => 'single_text',
-            ])
             ->add('picture', TextType::class)
-            ->add('description', TextareaType::class)
-            ->add('artist', EntityType::class, [
-                'class' => Artist::class,
-                'choice_label' => 'name',
-                'multiple' => true,
-            ])
+            ->add('link', TextType::class)
             ->add('inscription', EntityType::class, [
                 'class' => Inscription::class,
                 'choice_label' => 'id',
@@ -42,7 +28,7 @@ class SchoolClassType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => SchoolClass::class,
+            'data_class' => Partner::class,
         ]);
     }
 }

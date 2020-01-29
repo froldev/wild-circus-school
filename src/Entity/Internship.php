@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\InternshipRepository")
@@ -29,7 +31,9 @@ class Internship
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="datetime")
+     * @Assert\DateTime
+     * @Assert\NotBlank
      */
     private $startDate;
 
@@ -41,11 +45,12 @@ class Internship
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="internship")
      */
-    private $relation;
+    private $inscription;
 
     public function __construct()
     {
         $this->relation = new ArrayCollection();
+        $this->inscription = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,12 +82,12 @@ class Internship
         return $this;
     }
 
-    public function getStartDate(): ?string
+    public function getStartDate(): DateTime
     {
         return $this->startDate;
     }
 
-    public function setStartDate(string $startDate): self
+    public function setStartDate(DateTime $startDate): self
     {
         $this->startDate = $startDate;
 
@@ -102,30 +107,30 @@ class Internship
     }
 
     /**
-     * @return Collection|Inscription[]
+     * @return Collection|inscription[]
      */
-    public function getRelation(): Collection
+    public function getInscription(): Collection
     {
-        return $this->relation;
+        return $this->inscription;
     }
 
-    public function addRelation(Inscription $relation): self
+    public function addInscription(inscription $inscription): self
     {
-        if (!$this->relation->contains($relation)) {
-            $this->relation[] = $relation;
-            $relation->setInternship($this);
+        if (!$this->inscription->contains($inscription)) {
+            $this->inscription[] = $inscription;
+            $inscription->setInternship($this);
         }
 
         return $this;
     }
 
-    public function removeRelation(Inscription $relation): self
+    public function removeInscription(inscription $inscription): self
     {
-        if ($this->relation->contains($relation)) {
-            $this->relation->removeElement($relation);
+        if ($this->inscription->contains($inscription)) {
+            $this->inscription->removeElement($inscription);
             // set the owning side to null (unless already changed)
-            if ($relation->getInternship() === $this) {
-                $relation->setInternship(null);
+            if ($inscription->getInternship() === $this) {
+                $inscription->setInternship(null);
             }
         }
 

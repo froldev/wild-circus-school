@@ -19,28 +19,30 @@ class Inscription
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="inscriptions")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="inscription")
      */
-    private $relation;
+    private $users;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\SchoolClass", inversedBy="relation")
-     */
-    private $schoolClass;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Internship", inversedBy="relation")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Internship", inversedBy="inscription")
      */
     private $internship;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Representation", inversedBy="relation")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Representation", inversedBy="inscription")
      */
     private $representation;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\SchoolClass", mappedBy="inscription")
+     */
+    private $schoolClasses;
 
     public function __construct()
     {
         $this->relation = new ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->schoolClasses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,37 +53,27 @@ class Inscription
     /**
      * @return Collection|User[]
      */
-    public function getRelation(): Collection
+    public function getUsers(): Collection
     {
-        return $this->relation;
+        return $this->users;
     }
 
-    public function addRelation(User $relation): self
+    public function addUser(User $user): self
     {
-        if (!$this->relation->contains($relation)) {
-            $this->relation[] = $relation;
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addInscription($this);
         }
 
         return $this;
     }
 
-    public function removeRelation(User $relation): self
+    public function removeUser(User $user): self
     {
-        if ($this->relation->contains($relation)) {
-            $this->relation->removeElement($relation);
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeInscription($this);
         }
-
-        return $this;
-    }
-
-    public function getSchoolClass(): ?SchoolClass
-    {
-        return $this->schoolClass;
-    }
-
-    public function setSchoolClass(?SchoolClass $schoolClass): self
-    {
-        $this->schoolClass = $schoolClass;
 
         return $this;
     }
@@ -106,6 +98,37 @@ class Inscription
     public function setRepresentation(?Representation $representation): self
     {
         $this->representation = $representation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SchoolClass[]
+     */
+    public function getSchoolClasses(): Collection
+    {
+        return $this->schoolClasses;
+    }
+
+    public function addSchoolClass(SchoolClass $schoolClass): self
+    {
+        if (!$this->schoolClasses->contains($schoolClass)) {
+            $this->schoolClasses[] = $schoolClass;
+            $schoolClass->setInscription($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchoolClass(SchoolClass $schoolClass): self
+    {
+        if ($this->schoolClasses->contains($schoolClass)) {
+            $this->schoolClasses->removeElement($schoolClass);
+            // set the owning side to null (unless already changed)
+            if ($schoolClass->getInscription() === $this) {
+                $schoolClass->setInscription(null);
+            }
+        }
 
         return $this;
     }

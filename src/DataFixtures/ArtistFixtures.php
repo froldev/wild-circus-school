@@ -14,7 +14,7 @@ class ArtistFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $faker = Faker\Factory::create('fr_FR');
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 6; $i++) {
             $artist = new Artist();
             $artist->setName($faker->name);
             $artist->setDescription($faker->text($maxNbChars = 200));

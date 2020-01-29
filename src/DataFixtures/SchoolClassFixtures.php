@@ -10,16 +10,18 @@ use Faker;
 
 class SchoolClassFixtures extends Fixture
 {
+    const NUMBER_CLASS = 12;
+
     public function load(ObjectManager $manager): void
     {
         $faker = Faker\Factory::create('fr_FR');
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < $this::NUMBER_CLASS; $i++) {
             $schoolClass = new SchoolClass();
             $schoolClass->setName($faker->text($maxNbChars = 10));
             $schoolClass->setDuration($faker->numberBetween($min = 4, $max = 24));
             $schoolClass->setPrice($faker->numberBetween($min = 1000, $max = 8000));
             $schoolClass->setDescription($faker->text($maxNbChars = 200));
-            $schoolClass->setStartDate($faker->date($format = 'd-m-Y', $max = 'now'));
+            $schoolClass->setStartDate($faker->dateTime($max = 'now', $timezone = null));
             $schoolClass->setPicture($faker->imageUrl($width = 640, $height = 480, 'fashion'));
             $manager->persist($schoolClass);
         }

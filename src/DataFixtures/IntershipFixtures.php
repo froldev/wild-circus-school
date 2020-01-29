@@ -13,7 +13,7 @@ class IntershipFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $faker = Faker\Factory::create('fr_FR');
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $internship = new Internship();
             $internship->setName($faker->text($maxNbChars = 10));
             $internship->setDescription($faker->text($maxNbChars = 200));
