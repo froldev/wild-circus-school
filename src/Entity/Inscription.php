@@ -19,24 +19,19 @@ class Inscription
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="inscription")
-     */
-    private $users;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Internship", inversedBy="inscription")
      */
     private $internship;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Representation", inversedBy="inscription")
-     */
-    private $representation;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\SchoolClass", mappedBy="inscription")
      */
     private $schoolClasses;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isValidate;
 
     public function __construct()
     {
@@ -50,34 +45,6 @@ class Inscription
         return $this->id;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->addInscription($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-            $user->removeInscription($this);
-        }
-
-        return $this;
-    }
-
     public function getInternship(): ?Internship
     {
         return $this->internship;
@@ -86,18 +53,6 @@ class Inscription
     public function setInternship(?Internship $internship): self
     {
         $this->internship = $internship;
-
-        return $this;
-    }
-
-    public function getRepresentation(): ?Representation
-    {
-        return $this->representation;
-    }
-
-    public function setRepresentation(?Representation $representation): self
-    {
-        $this->representation = $representation;
 
         return $this;
     }
@@ -129,6 +84,18 @@ class Inscription
                 $schoolClass->setInscription(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsValidate(): ?bool
+    {
+        return $this->isValidate;
+    }
+
+    public function setIsValidate(bool $isValidate): self
+    {
+        $this->isValidate = $isValidate;
 
         return $this;
     }
