@@ -33,6 +33,11 @@ class Inscription
      */
     private $isValidate;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="inscription")
+     */
+    private $users;
+
     public function __construct()
     {
         $this->relation = new ArrayCollection();
@@ -96,6 +101,34 @@ class Inscription
     public function setIsValidate(bool $isValidate): self
     {
         $this->isValidate = $isValidate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addInscription($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeInscription($this);
+        }
 
         return $this;
     }

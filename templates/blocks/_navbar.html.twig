@@ -9,27 +9,51 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">HOME</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('admin_class_index') }}">TRAINING</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('admin_internship_index') }}">INTERNSHIPS</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('admin_partner_index') }}">PARTENAIRES</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('admin_artist_index') }}">ARTISTES</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">INSCRIPTION</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">CONNEXION</a>
-                </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('admin_home') }}">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('admin_class_index') }}">TRAINING</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('admin_internship_index') }}">INTERNSHIPS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('admin_partner_index') }}">PARTNERS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('admin_artist_index') }}">ARTISTS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('admin_administrator_index') }}">ADMINISTRATORS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('admin_user_index') }}">USERS</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('home') }}">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('school_class_index') }}">TRAINING</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('internship_index') }}">INTERNSHIP</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('inscription_index') }}">MY INSCRIPTION</a>
+                    </li>
+                {% endif %}
+                {% if app.user %}
+                    <li class="nav-item">
+                        <a class="btn btn-outline-dark" href="{{ path('app_logout') }}">Log Out</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="btn btn-outline-warning" href="{{ path('app_login') }}">Log In</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>

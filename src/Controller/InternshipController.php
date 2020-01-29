@@ -5,31 +5,28 @@ namespace App\Controller;
 use App\Entity\Internship;
 use App\Form\InternshipType;
 use App\Repository\InternshipRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/internship", name="admin_internship_")
+ * @Route("/internship")
  */
-class AdminInternshipController extends AbstractController
+class InternshipController extends AbstractController
 {
     /**
-     * @Route("/", name="index", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN", statusCode=404)
+     * @Route("/", name="internship_index", methods={"GET"})
      */
     public function index(InternshipRepository $internshipRepository): Response
     {
-        return $this->render('adminInternship/index.html.twig', [
+        return $this->render('internship/index.html.twig', [
             'internships' => $internshipRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="new", methods={"GET","POST"})
-     * @IsGranted("ROLE_ADMIN", statusCode=404)
+     * @Route("/new", name="internship_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -42,29 +39,27 @@ class AdminInternshipController extends AbstractController
             $entityManager->persist($internship);
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin_internship_index');
+            return $this->redirectToRoute('internship_index');
         }
 
-        return $this->render('adminInternship/new.html.twig', [
+        return $this->render('internship/new.html.twig', [
             'internship' => $internship,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="show", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN", statusCode=404)
+     * @Route("/{id}", name="internship_show", methods={"GET"})
      */
     public function show(Internship $internship): Response
     {
-        return $this->render('adminInternship/show.html.twig', [
+        return $this->render('internship/show.html.twig', [
             'internship' => $internship,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
-     * @IsGranted("ROLE_ADMIN", statusCode=404)
+     * @Route("/{id}/edit", name="internship_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Internship $internship): Response
     {
@@ -74,18 +69,17 @@ class AdminInternshipController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('admin_internship_index');
+            return $this->redirectToRoute('internship_index');
         }
 
-        return $this->render('adminInternship/edit.html.twig', [
+        return $this->render('internship/edit.html.twig', [
             'internship' => $internship,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
-     * @IsGranted("ROLE_ADMIN", statusCode=404)
+     * @Route("/{id}", name="internship_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Internship $internship): Response
     {
@@ -95,6 +89,6 @@ class AdminInternshipController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin_internship_index');
+        return $this->redirectToRoute('internship_index');
     }
 }

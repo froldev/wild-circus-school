@@ -5,31 +5,28 @@ namespace App\Controller;
 use App\Entity\Inscription;
 use App\Form\InscriptionType;
 use App\Repository\InscriptionRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/inscription", name="admin_inscription_")
+ * @Route("/inscription")
  */
-class AdminInscriptionController extends AbstractController
+class InscriptionController extends AbstractController
 {
     /**
-     * @Route("/", name="index", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN", statusCode=404)
+     * @Route("/", name="inscription_index", methods={"GET"})
      */
     public function index(InscriptionRepository $inscriptionRepository): Response
     {
-        return $this->render('adminInscription/index.html.twig', [
+        return $this->render('inscription/index.html.twig', [
             'inscriptions' => $inscriptionRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="new", methods={"GET","POST"})
-     * @IsGranted("ROLE_ADMIN", statusCode=404)
+     * @Route("/new", name="inscription_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -42,29 +39,27 @@ class AdminInscriptionController extends AbstractController
             $entityManager->persist($inscription);
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin_inscription_index');
+            return $this->redirectToRoute('inscription_index');
         }
 
-        return $this->render('adminInscription/new.html.twig', [
+        return $this->render('inscription/new.html.twig', [
             'inscription' => $inscription,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="show", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN", statusCode=404)
+     * @Route("/{id}", name="inscription_show", methods={"GET"})
      */
     public function show(Inscription $inscription): Response
     {
-        return $this->render('adminInscription/show.html.twig', [
+        return $this->render('inscription/show.html.twig', [
             'inscription' => $inscription,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
-     * @IsGranted("ROLE_ADMIN", statusCode=404)
+     * @Route("/{id}/edit", name="inscription_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Inscription $inscription): Response
     {
@@ -74,18 +69,17 @@ class AdminInscriptionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('admin_inscription_index');
+            return $this->redirectToRoute('inscription_index');
         }
 
-        return $this->render('adminInscription/edit.html.twig', [
+        return $this->render('inscription/edit.html.twig', [
             'inscription' => $inscription,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
-     * @IsGranted("ROLE_ADMIN", statusCode=404)
+     * @Route("/{id}", name="inscription_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Inscription $inscription): Response
     {
@@ -95,6 +89,6 @@ class AdminInscriptionController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin_inscription_index');
+        return $this->redirectToRoute('inscription_index');
     }
 }

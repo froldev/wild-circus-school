@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\SchoolClass;
-use App\Form\SchoolClassType;
-use App\Repository\SchoolClassRepository;
+use App\Entity\User;
+use App\Form\AdministratorType;
+use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,18 +12,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("admin/class", name="admin_class_")
+ * @Route("/admin/administrator", name="admin_administrator_")
  */
-class AdminSchoolClassController extends AbstractController
+class AdminAdministratorController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
      * @IsGranted("ROLE_ADMIN", statusCode=404)
      */
-    public function index(SchoolClassRepository $schoolClassRepository): Response
+    public function index(UserRepository $userRepository): Response
     {
-        return $this->render('adminClass/index.html.twig', [
-            'school_classes' => $schoolClassRepository->findAll(),
+        return $this->render('adminAdministrator/index.html.twig', [
+            'users' => $userRepository->findAdmin(),
         ]);
     }
 
@@ -33,20 +33,20 @@ class AdminSchoolClassController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $schoolClass = new SchoolClass();
-        $form = $this->createForm(SchoolClassType::class, $schoolClass);
+        $user = new User();
+        $form = $this->createForm(AdministratorType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($schoolClass);
+            $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin_class_index');
+            return $this->redirectToRoute('admin_administrator_index');
         }
 
-        return $this->render('adminClass/new.html.twig', [
-            'school_class' => $schoolClass,
+        return $this->render('adminAdministrator/new.html.twig', [
+            'user' => $user,
             'form' => $form->createView(),
         ]);
     }
@@ -55,10 +55,10 @@ class AdminSchoolClassController extends AbstractController
      * @Route("/{id}", name="show", methods={"GET"})
      * @IsGranted("ROLE_ADMIN", statusCode=404)
      */
-    public function show(SchoolClass $schoolClass): Response
+    public function show(User $user): Response
     {
-        return $this->render('adminClass/show.html.twig', [
-            'school_class' => $schoolClass,
+        return $this->render('adminAdministrator/show.html.twig', [
+            'user' => $user,
         ]);
     }
 
@@ -66,19 +66,19 @@ class AdminSchoolClassController extends AbstractController
      * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN", statusCode=404)
      */
-    public function edit(Request $request, SchoolClass $schoolClass): Response
+    public function edit(Request $request, User $user): Response
     {
-        $form = $this->createForm(SchoolClassType::class, $schoolClass);
+        $form = $this->createForm(AdministratorType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('admin_class_index');
+            return $this->redirectToRoute('admin_administrator_index');
         }
 
-        return $this->render('adminClass/edit.html.twig', [
-            'school_class' => $schoolClass,
+        return $this->render('adminAdministrator/edit.html.twig', [
+            'user' => $user,
             'form' => $form->createView(),
         ]);
     }
@@ -87,14 +87,14 @@ class AdminSchoolClassController extends AbstractController
      * @Route("/{id}", name="delete", methods={"DELETE"})
      * @IsGranted("ROLE_ADMIN", statusCode=404)
      */
-    public function delete(Request $request, SchoolClass $schoolClass): Response
+    public function delete(Request $request, User $user): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$schoolClass->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($schoolClass);
+            $entityManager->remove($user);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin_class_index');
+        return $this->redirectToRoute('admin_administrator_index');
     }
 }

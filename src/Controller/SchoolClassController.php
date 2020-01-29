@@ -5,31 +5,28 @@ namespace App\Controller;
 use App\Entity\SchoolClass;
 use App\Form\SchoolClassType;
 use App\Repository\SchoolClassRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("admin/class", name="admin_class_")
+ * @Route("/school/class")
  */
-class AdminSchoolClassController extends AbstractController
+class SchoolClassController extends AbstractController
 {
     /**
-     * @Route("/", name="index", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN", statusCode=404)
+     * @Route("/", name="school_class_index", methods={"GET"})
      */
     public function index(SchoolClassRepository $schoolClassRepository): Response
     {
-        return $this->render('adminClass/index.html.twig', [
+        return $this->render('school_class/index.html.twig', [
             'school_classes' => $schoolClassRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="new", methods={"GET","POST"})
-     * @IsGranted("ROLE_ADMIN", statusCode=404)
+     * @Route("/new", name="school_class_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -42,29 +39,27 @@ class AdminSchoolClassController extends AbstractController
             $entityManager->persist($schoolClass);
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin_class_index');
+            return $this->redirectToRoute('school_class_index');
         }
 
-        return $this->render('adminClass/new.html.twig', [
+        return $this->render('school_class/new.html.twig', [
             'school_class' => $schoolClass,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="show", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN", statusCode=404)
+     * @Route("/{id}", name="school_class_show", methods={"GET"})
      */
     public function show(SchoolClass $schoolClass): Response
     {
-        return $this->render('adminClass/show.html.twig', [
+        return $this->render('school_class/show.html.twig', [
             'school_class' => $schoolClass,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
-     * @IsGranted("ROLE_ADMIN", statusCode=404)
+     * @Route("/{id}/edit", name="school_class_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, SchoolClass $schoolClass): Response
     {
@@ -74,18 +69,17 @@ class AdminSchoolClassController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('admin_class_index');
+            return $this->redirectToRoute('school_class_index');
         }
 
-        return $this->render('adminClass/edit.html.twig', [
+        return $this->render('school_class/edit.html.twig', [
             'school_class' => $schoolClass,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
-     * @IsGranted("ROLE_ADMIN", statusCode=404)
+     * @Route("/{id}", name="school_class_delete", methods={"DELETE"})
      */
     public function delete(Request $request, SchoolClass $schoolClass): Response
     {
@@ -95,6 +89,6 @@ class AdminSchoolClassController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin_class_index');
+        return $this->redirectToRoute('school_class_index');
     }
 }

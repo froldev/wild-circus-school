@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Artist;
 use App\Form\ArtistType;
 use App\Repository\ArtistRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +18,7 @@ class AdminArtistController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN", statusCode=404)
      */
     public function index(ArtistRepository $artistRepository): Response
     {
@@ -27,6 +29,7 @@ class AdminArtistController extends AbstractController
 
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN", statusCode=404)
      */
     public function new(Request $request): Response
     {
@@ -50,6 +53,7 @@ class AdminArtistController extends AbstractController
 
     /**
      * @Route("/{id}", name="show", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN", statusCode=404)
      */
     public function show(Artist $artist): Response
     {
@@ -60,6 +64,7 @@ class AdminArtistController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN", statusCode=404)
      */
     public function edit(Request $request, Artist $artist): Response
     {
@@ -80,6 +85,7 @@ class AdminArtistController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN", statusCode=404)
      */
     public function delete(Request $request, Artist $artist): Response
     {

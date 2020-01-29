@@ -17,7 +17,7 @@ class IntershipFixtures extends Fixture
             $internship = new Internship();
             $internship->setName($faker->text($maxNbChars = 10));
             $internship->setDescription($faker->text($maxNbChars = 200));
-            $internship->setStartDate($faker->date($format = 'd-m-Y', $max = 'now'));
+            $internship->setStartDate($faker->dateTime($max = 'now', $timezone = null));
             $internship->setPicture($faker->imageUrl($width = 640, $height = 480, 'nightlife'));
             $manager->persist($internship);
         }

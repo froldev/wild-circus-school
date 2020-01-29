@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Wild Circus School || List of Users{% endblock %}
+
+{% block body %}
+
+    <section class="card border-secondary bg-primary text-white m-3">
+        <h1 class="text-center text-uppercase p-3">
+            List of Users
+        </h1>
+    </section>
+
+    <section id="card" class="m-3">
+        <div class="row d-flex justify-content-around ">
+            {% for user in users %}
+                <div class="card col-xs-11 col-md-5 flex-row m-1">
+                    <div class="card-body col-9 align-self-center">
+                        <h5 class="card-title">
+                            {{ user.civility }} {{ user.lastName }} {{ user.firstName }}
+                        </h5>
+                        <p class="card-text">
+                            {{ user.email }}
+                        </p>
+                    </div>
+                </div>
+            {% else %}
+                <div>
+                    <h5>No records found</h5>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+{% endblock %}
