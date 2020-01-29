@@ -11,22 +11,24 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/school/class")
+ * @Route("/admin/class", name="admin_class_")
  */
-class SchoolClassController extends AbstractController
+class AdminSchoolClassController extends AbstractController
 {
     /**
-     * @Route("/", name="school_class_index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      */
     public function index(SchoolClassRepository $schoolClassRepository): Response
     {
-        return $this->render('school_class/index.html.twig', [
-            'school_classes' => $schoolClassRepository->findAll(),
+        return $this->render('adminSchoolClass/index.html.twig', [
+            'classes' => $schoolClassRepository->findBy([], [
+                'name' => 'ASC',
+            ]),
         ]);
     }
 
     /**
-     * @Route("/new", name="school_class_new", methods={"GET","POST"})
+     * @Route("/new", name="new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -39,27 +41,27 @@ class SchoolClassController extends AbstractController
             $entityManager->persist($schoolClass);
             $entityManager->flush();
 
-            return $this->redirectToRoute('school_class_index');
+            return $this->redirectToRoute('admin_class_index');
         }
 
-        return $this->render('school_class/new.html.twig', [
-            'school_class' => $schoolClass,
+        return $this->render('adminSchoolClass/new.html.twig', [
+            'class' => $schoolClass,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="school_class_show", methods={"GET"})
+     * @Route("/{id}", name="show", methods={"GET"})
      */
     public function show(SchoolClass $schoolClass): Response
     {
-        return $this->render('school_class/show.html.twig', [
-            'school_class' => $schoolClass,
+        return $this->render('adminSchoolClass/show.html.twig', [
+            'class' => $schoolClass,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="school_class_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, SchoolClass $schoolClass): Response
     {
@@ -69,17 +71,17 @@ class SchoolClassController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('school_class_index');
+            return $this->redirectToRoute('admin_class_index');
         }
 
-        return $this->render('school_class/edit.html.twig', [
-            'school_class' => $schoolClass,
+        return $this->render('adminSchoolClass/edit.html.twig', [
+            'class' => $schoolClass,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="school_class_delete", methods={"DELETE"})
+     * @Route("/{id}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, SchoolClass $schoolClass): Response
     {
@@ -89,6 +91,6 @@ class SchoolClassController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('school_class_index');
+        return $this->redirectToRoute('admin_class_index');
     }
 }

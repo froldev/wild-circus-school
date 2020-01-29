@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New SchoolClass{% endblock %}
+
+{% block body %}
+
+    <section class="card border-secondary bg-primary text-white m-3">
+        <h1 class="text-center text-uppercase p-3">Create new Training</h1>
+    </section>
+
+    <section class="card border-secondary m-3">
+        <div class="p-3">
+            {{ include('adminSchoolClass/_form.html.twig') }}
+        </div>
+    </section>
+
+    <section class="card border-secondary m-3">
+        <div class="m-3">
+            <a class="btn btn-dark btn-lg" href="{{ path('admin_class_index') }}">
+                Back
+            </a>
+        </div>
+    </section>
+
+{% endblock %}

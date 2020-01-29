@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SchoolClassRepository")
@@ -34,7 +36,9 @@ class SchoolClass
     private $price;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="datetime")
+     * @Assert\DateTime
+     * @Assert\NotBlank
      */
     private $startDate;
 
@@ -53,15 +57,9 @@ class SchoolClass
      */
     private $artists;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="schoolClass")
-     */
-    private $relation;
-
     public function __construct()
     {
         $this->artists = new ArrayCollection();
-        $this->relation = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -105,12 +103,12 @@ class SchoolClass
         return $this;
     }
 
-    public function getStartDate(): ?string
+    public function getStartDate(): ?DateTime
     {
         return $this->startDate;
     }
 
-    public function setStartDate(string $startDate): self
+    public function setStartDate(DateTime $startDate): self
     {
         $this->startDate = $startDate;
 
@@ -164,37 +162,6 @@ class SchoolClass
         if ($this->artists->contains($artist)) {
             $this->artists->removeElement($artist);
             $artist->removeRelation($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Inscription[]
-     */
-    public function getRelation(): Collection
-    {
-        return $this->relation;
-    }
-
-    public function addRelation(Inscription $relation): self
-    {
-        if (!$this->relation->contains($relation)) {
-            $this->relation[] = $relation;
-            $relation->setSchoolClass($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRelation(Inscription $relation): self
-    {
-        if ($this->relation->contains($relation)) {
-            $this->relation->removeElement($relation);
-            // set the owning side to null (unless already changed)
-            if ($relation->getSchoolClass() === $this) {
-                $relation->setSchoolClass(null);
-            }
         }
 
         return $this;

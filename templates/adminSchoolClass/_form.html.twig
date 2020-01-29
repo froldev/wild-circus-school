@@ -1,0 +1,31 @@
+{{ form_start(form) }}
+    <div class="form-group">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}
+        </div>
+    <div class="form-group">
+        {{ form_label(form.duration) }}
+        {{ form_widget(form.duration) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.startDate) }}
+        {{ form_widget(form.startDate) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.picture) }}
+        {{ form_widget(form.picture) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.artists) }}
+        {{ form_widget(form.artists) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.price) }}
+        {{ form_widget(form.price) }}
+    </div>
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
