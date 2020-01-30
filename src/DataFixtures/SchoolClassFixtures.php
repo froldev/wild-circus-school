@@ -23,6 +23,7 @@ class SchoolClassFixtures extends Fixture
             $schoolClass->setDescription($faker->text($maxNbChars = 200));
             $schoolClass->setStartDate($faker->dateTime($max = 'now', $timezone = null));
             $schoolClass->setPicture($faker->imageUrl($width = 640, $height = 480, 'fashion'));
+            $schoolClass->setCategory($this->getReference('category_'.rand(0, 9), $schoolClass));
             $manager->persist($schoolClass);
         }
         $manager->flush();

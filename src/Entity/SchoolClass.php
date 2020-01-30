@@ -22,16 +22,21 @@ class SchoolClass
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Positive
+     * @Assert\NotBlank
      */
     private $duration;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Positive
+     * @Assert\NotBlank
      */
     private $price;
 
@@ -44,16 +49,19 @@ class SchoolClass
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $picture;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
      */
     private $description;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Artist", mappedBy="schoolClass")
+     * @Assert\NotBlank
      */
     private $artists;
 
@@ -64,6 +72,7 @@ class SchoolClass
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="schoolClass")
+     * @Assert\NotBlank
      */
     private $category;
 
@@ -113,7 +122,7 @@ class SchoolClass
         return $this;
     }
 
-    public function getStartDate(): DateTime
+    public function getStartDate(): ?DateTime
     {
         return $this->startDate;
     }

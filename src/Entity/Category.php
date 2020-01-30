@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
@@ -20,21 +21,20 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Unique
+     * @Assert\NotBlank
      */
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Artist", inversedBy="categories")
-     */
-    private $artist;
-
-    /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $picture;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SchoolClass", mappedBy="category")
+     * @Assert\NotBlank
      */
     private $schoolClass;
 
@@ -57,32 +57,6 @@ class Category
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|artist[]
-     */
-    public function getArtist(): Collection
-    {
-        return $this->artist;
-    }
-
-    public function addArtist(artist $artist): self
-    {
-        if (!$this->artist->contains($artist)) {
-            $this->artist[] = $artist;
-        }
-
-        return $this;
-    }
-
-    public function removeArtist(artist $artist): self
-    {
-        if ($this->artist->contains($artist)) {
-            $this->artist->removeElement($artist);
-        }
 
         return $this;
     }

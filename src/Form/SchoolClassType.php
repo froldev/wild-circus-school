@@ -32,6 +32,7 @@ class SchoolClassType extends AbstractType
                 'class' => Artist::class,
                 'choice_label' => 'name',
                 'multiple' => true,
+                'expanded' => true,
             ])
             ->add('inscription', EntityType::class, [
                 'class' => Inscription::class,
