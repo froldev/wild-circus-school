@@ -18,7 +18,7 @@ class ArtistFixtures extends Fixture
             $artist = new Artist();
             $artist->setName($faker->name);
             $artist->setDescription($faker->text($maxNbChars = 200));
-            $artist->setPicture($faker->imageUrl($width = 640, $height = 480, 'people'));
+            $artist->setImage($faker->imageUrl($width = 640, $height = 480, 'people'));
             $manager->persist($artist);
         }
         $manager->flush();

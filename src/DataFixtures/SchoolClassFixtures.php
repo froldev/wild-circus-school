@@ -22,7 +22,7 @@ class SchoolClassFixtures extends Fixture
             $schoolClass->setPrice($faker->numberBetween($min = 1000, $max = 8000));
             $schoolClass->setDescription($faker->text($maxNbChars = 200));
             $schoolClass->setStartDate($faker->dateTime($max = 'now', $timezone = null));
-            $schoolClass->setPicture($faker->imageUrl($width = 640, $height = 480, 'fashion'));
+            $schoolClass->setImage($faker->imageUrl($width = 640, $height = 480, 'fashion'));
             $schoolClass->setCategory($this->getReference('category_'.rand(0, 9), $schoolClass));
             $manager->persist($schoolClass);
         }

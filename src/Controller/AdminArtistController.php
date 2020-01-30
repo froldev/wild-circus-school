@@ -74,7 +74,7 @@ class AdminArtistController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('admin_artist_index');
+            return $this->redirectToRoute('admin_artist_show', ['id' => $artist->getId()]);
         }
 
         return $this->render('adminArtist/edit.html.twig', [

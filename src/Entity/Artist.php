@@ -2,13 +2,17 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArtistRepository")
+ * @Vich\Uploadable
  */
 class Artist
 {
@@ -21,7 +25,6 @@ class Artist
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Unique
      * @Assert\NotBlank
      */
     private $name;
@@ -34,9 +37,19 @@ class Artist
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
      */
-    private $picture;
+    private $image;
+
+    /**
+     * @Vich\UploadableField(mapping="user_image", fileNameProperty="image")
+     * @Assert\Image(mimeTypes={"image/png", "image/jpeg", "image/jpg", "image/gif"})
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\SchoolClass", inversedBy="artists")
@@ -80,16 +93,28 @@ class Artist
         return $this;
     }
 
-    public function getPicture(): ?string
+    public function setImageFile(File $image = null)
     {
-        return $this->picture;
+        $this->imageFile = $image;
+
+        if ($image) {
+            $this->updatedAt = new \DateTime('now');
+        }
     }
 
-    public function setPicture(string $picture): self
+    public function getImageFile()
     {
-        $this->picture = $picture;
+        return $this->imageFile;
+    }
 
-        return $this;
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
     }
 
     /**
@@ -114,6 +139,18 @@ class Artist
         if ($this->schoolClass->contains($schoolClass)) {
             $this->schoolClass->removeElement($schoolClass);
         }
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(DateTime $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

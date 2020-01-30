@@ -2,13 +2,14 @@
 
 namespace App\Form;
 
-use App\Entity\Artist;
 use App\Entity\Category;
+use App\Entity\SchoolClass;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class CategoryType extends AbstractType
 {
@@ -17,10 +18,15 @@ class CategoryType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('schoolClass', EntityType::class, [
-                'class' => Artist::class,
+                'class' => SchoolClass::class,
                 'choice_label' => 'name',
+                'multiple' => true,
             ])
-            ->add('picture', TextType::class)
+            ->add('imageFile', VichFileType::class, array(
+                'required' => false,
+                'allow_delete' => true, // not mandatory, default is true
+                'download_link' => false, // not mandatory, default is true
+            ))
         ;
     }
 

@@ -30,7 +30,7 @@ class CategoryFixtures extends Fixture
         foreach(self::CATEGORIES as $cat) {
             $category = new Category();
             $category->setName($cat);
-            $category->setPicture($faker->imageUrl($width = 640, $height = 480));
+            $category->setImage($faker->imageUrl($width = 640, $height = 480));
             $manager->persist($category);
             $this->addReference('category_' .$i, $category);
             $i++;

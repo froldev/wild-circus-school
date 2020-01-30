@@ -6,10 +6,13 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SchoolClassRepository")
+ * @Vich\Uploadable
  */
 class SchoolClass
 {
@@ -49,9 +52,19 @@ class SchoolClass
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
      */
-    private $picture;
+    private $image;
+
+    /**
+     * @Vich\UploadableField(mapping="user_image", fileNameProperty="image")
+     * @Assert\Image(mimeTypes={"image/png", "image/jpeg", "image/jpg", "image/gif"})
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     /**
      * @ORM\Column(type="text")
@@ -75,6 +88,7 @@ class SchoolClass
      * @Assert\NotBlank
      */
     private $category;
+
 
     public function __construct()
     {
@@ -134,16 +148,28 @@ class SchoolClass
         return $this;
     }
 
-    public function getPicture(): ?string
+    public function setImageFile(File $image = null)
     {
-        return $this->picture;
+        $this->imageFile = $image;
+
+        if ($image) {
+            $this->updatedAt = new \DateTime('now');
+        }
     }
 
-    public function setPicture(string $picture): self
+    public function getImageFile()
     {
-        $this->picture = $picture;
+        return $this->imageFile;
+    }
 
-        return $this;
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
     }
 
     public function getDescription(): ?string
@@ -206,6 +232,18 @@ class SchoolClass
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(DateTime $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

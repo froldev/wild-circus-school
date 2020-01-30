@@ -3,37 +3,43 @@
 {% block title %}Artist index{% endblock %}
 
 {% block body %}
-    <h1>Artist index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Picture</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for artist in artists %}
-            <tr>
-                <td>{{ artist.id }}</td>
-                <td>{{ artist.name }}</td>
-                <td>{{ artist.description }}</td>
-                <td>{{ artist.picture }}</td>
-                <td>
-                    <a href="{{ path('admin_artist_show', {'id': artist.id}) }}">show</a>
-                    <a href="{{ path('admin_artist_edit', {'id': artist.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <section class="card border-secondary bg-primary text-white m-3">
+        <h1 class="text-center text-uppercase p-3">
+            List of Artists
+        </h1>
+    </section>
 
-    <a href="{{ path('admin_artist_new') }}">Create new</a>
+    <section class="mr-4">
+        <div class="d-flex justify-content-end">
+            <a class="btn btn-outline-primary btn-lg"
+               href="{{ path('admin_artist_new') }}">Add a Artist</a>
+        </div>
+    </section>
+
+    <section id="card" class="m-3">
+        <div class="row d-flex justify-content-around ">
+            {% for artist in artists %}
+                <div class="card col-xs-11 col-md-5 flex-row m-1">
+                    <div class="card-body col-9 align-self-center">
+                        <h5 class="card-title">
+                            {{ artist.name }}
+                        </h5>
+                    </div>
+                    <div class="align-self-center col-2">
+                        <a class="btn btn-outline-primary"
+                           href="{{ path('admin_artist_show', {'id': artist.id}) }}">
+                            Show
+                        </a>
+                        {{ include('adminArtist/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            {% else %}
+                <div>
+                    <h5>No records found</h5>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
 {% endblock %}

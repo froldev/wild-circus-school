@@ -16,7 +16,7 @@ class PartnerFixtures extends Fixture
         for ($i = 0; $i < 11; $i++) {
             $partner = new Partner();
             $partner->setName($faker->name);
-            $partner->setPicture($faker->imageUrl($width = 640, $height = 480, 'people'));
+            $partner->setImage($faker->imageUrl($width = 640, $height = 480, 'people'));
             $partner->setLink($faker->url);
             $manager->persist($partner);
         }

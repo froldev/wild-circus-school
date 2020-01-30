@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class InternshipType extends AbstractType
 {
@@ -22,7 +23,11 @@ class InternshipType extends AbstractType
             ->add('startDate', DateType::class, [
                 'widget' => 'single_text',
             ])
-            ->add('picture', TextType::class)
+            ->add('imageFile', VichFileType::class, array(
+                'required' => false,
+                'allow_delete' => true, // not mandatory, default is true
+                'download_link' => false, // not mandatory, default is true
+            ))
             ->add('inscription', EntityType::class, [
                 'class' => Inscription::class,
                 'choice_label' => 'id',
