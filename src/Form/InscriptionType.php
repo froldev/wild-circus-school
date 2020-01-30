@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Inscription;
 use App\Entity\Internship;
-use App\Entity\Representation;
 use App\Entity\SchoolClass;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -24,6 +23,10 @@ class InscriptionType extends AbstractType
             ->add('schoolClasses', EntityType::class, [
                 'class' => SchoolClass::class,
                 'choice_label' => 'name',
+            ])
+            ->add('user', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => 'lastName',
             ])
         ;
     }

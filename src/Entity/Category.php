@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ArtistRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
  */
-class Artist
+class Category
 {
     /**
      * @ORM\Id()
@@ -24,9 +24,9 @@ class Artist
     private $name;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Artist", inversedBy="categories")
      */
-    private $description;
+    private $artist;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -34,15 +34,14 @@ class Artist
     private $picture;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\SchoolClass", inversedBy="artists")
+     * @ORM\OneToMany(targetEntity="App\Entity\SchoolClass", mappedBy="category")
      */
     private $schoolClass;
 
     public function __construct()
     {
-        $this->relation = new ArrayCollection();
+        $this->artist = new ArrayCollection();
         $this->schoolClass = new ArrayCollection();
-        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -62,14 +61,28 @@ class Artist
         return $this;
     }
 
-    public function getDescription(): ?string
+    /**
+     * @return Collection|artist[]
+     */
+    public function getArtist(): Collection
     {
-        return $this->description;
+        return $this->artist;
     }
 
-    public function setDescription(string $description): self
+    public function addArtist(artist $artist): self
     {
-        $this->description = $description;
+        if (!$this->artist->contains($artist)) {
+            $this->artist[] = $artist;
+        }
+
+        return $this;
+    }
+
+    public function removeArtist(artist $artist): self
+    {
+        if ($this->artist->contains($artist)) {
+            $this->artist->removeElement($artist);
+        }
 
         return $this;
     }
@@ -98,6 +111,7 @@ class Artist
     {
         if (!$this->schoolClass->contains($schoolClass)) {
             $this->schoolClass[] = $schoolClass;
+            $schoolClass->setCategory($this);
         }
 
         return $this;
@@ -107,6 +121,10 @@ class Artist
     {
         if ($this->schoolClass->contains($schoolClass)) {
             $this->schoolClass->removeElement($schoolClass);
+            // set the owning side to null (unless already changed)
+            if ($schoolClass->getCategory() === $this) {
+                $schoolClass->setCategory(null);
+            }
         }
 
         return $this;

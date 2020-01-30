@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Artist;
+use App\Entity\Category;
 use App\Entity\Inscription;
 use App\Entity\SchoolClass;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -35,6 +36,10 @@ class SchoolClassType extends AbstractType
             ->add('inscription', EntityType::class, [
                 'class' => Inscription::class,
                 'choice_label' => 'id',
+            ])
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name',
             ])
         ;
     }

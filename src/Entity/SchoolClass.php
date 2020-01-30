@@ -62,6 +62,11 @@ class SchoolClass
      */
     private $inscription;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="schoolClass")
+     */
+    private $category;
+
     public function __construct()
     {
         $this->artists = new ArrayCollection();
@@ -180,6 +185,18 @@ class SchoolClass
     public function setInscription(?inscription $inscription): self
     {
         $this->inscription = $inscription;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
