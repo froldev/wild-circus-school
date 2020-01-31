@@ -3,11 +3,20 @@
 {% block title %}Edit Category{% endblock %}
 
 {% block body %}
-    <h1>Edit Category</h1>
 
-    {{ include('adminCategory/_form.html.twig', {'button_label': 'Update'}) }}
+    <section class="card border-secondary bg-primary text-white m-3">
+        <h1 class="text-center text-uppercase p-3">
+            Edit {{ category.name|upper }}
+        </h1>
+    </section>
 
-    <a href="{{ path('admin_category_index') }}">back to list</a>
+    <section class="m-3">
+        <div class="card col-xs-10 offset-xs-1 col-md-8 offset-md-2">
+            <div class="card-body">
+                {{ include('adminCategory/_form.html.twig', {'button_label': 'Update'}) }}
+                <a href="{{ path('admin_category_index') }}" class="btn btn-outline-dark col-2 m-1">Back</a>
+            </div>
+        </div>
+    </section>
 
-    {{ include('adminCategory/_delete_form.html.twig') }}
 {% endblock %}

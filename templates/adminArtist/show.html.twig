@@ -12,16 +12,16 @@
 
     <section class="m-3">
         <div class="card col-xs-10 offset-xs-1 col-md-8 offset-md-2">
-            <img class="card-img-top" src="{{ artist.image }}" alt="Card {{ artist.name }}">
+            <img class="card-img-top" src="{{ artist.picture }}" alt="Card {{ artist.name }}">
             <div class="card-body">
                 <h5 class="card-title">{{ artist.name }}</h5>
                 <p class="card-text">{{  artist.description }}</p>
-                <p>Trainings :
-                <ul>
-                    {% for class in artist.schoolClass %}
-                    <li>{{ class.name }}</li>
-                    {% endfor %}
-                </ul>
+                <p class="card-text">Trainings :
+                    <ul>
+                        {% for class in artist.schoolClass %}
+                        <li>{{ class.name }}</li>
+                        {% endfor %}
+                    </ul>
                 </p>
                 <a href="{{ path('admin_artist_index') }}" class="btn btn-outline-dark col-4 m-1">Back</a>
                 <a href="{{ path('admin_artist_edit', {'id': artist.id}) }}" class="btn btn-outline-primary col-4 m-1">Modify</a>

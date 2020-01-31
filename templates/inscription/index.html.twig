@@ -3,6 +3,26 @@
 {% block title %}Inscription index{% endblock %}
 
 {% block body %}
+
+    <section id="classes" class="m-5">
+        <div class="row">
+
+            <h2 class="m-3">My Inscriptions</h2>
+
+            <div class="row">
+                {% for inscription in inscriptions %}
+                    <div class="col-xs-6 col-md-3">
+                        <div class="card m-1 border-secondary bg-primary text-white">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">{{ inscription.id }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
     <h1>Inscription index</h1>
 
     <table class="table">
@@ -18,10 +38,6 @@
             <tr>
                 <td>{{ inscription.id }}</td>
                 <td>{{ inscription.isValidate ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('inscription_show', {'id': inscription.id}) }}">show</a>
-                    <a href="{{ path('inscription_edit', {'id': inscription.id}) }}">edit</a>
-                </td>
             </tr>
         {% else %}
             <tr>
@@ -31,5 +47,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('inscription_new') }}">Create new</a>
 {% endblock %}

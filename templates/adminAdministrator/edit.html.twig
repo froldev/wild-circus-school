@@ -4,23 +4,19 @@
 
 {% block body %}
 
-    <section class="card border-primary bg-primary text-white m-3">
-        <h1 class="text-center text-uppercase p-3">Modification : {{ users.name|upper }}</h1>
-    </section>
-
-    <section class="card border-primary m-3">
-        <div class="card-header bg-primary">
-            <h3 class="text-center text-white">{{ users.name|upper }}</h3>
-        </div>
-        <div class="p-3">
-            {{ include('adminAdministrator/_form.html.twig', {'button_label': 'Update'}) }}
-        </div>
+    <section class="card border-secondary bg-primary text-white m-3">
+        <h1 class="text-center text-uppercase p-3">
+            Edit {{ user.lastName|title }} {{ user.firstName|upper }}
+        </h1>
     </section>
 
     <section class="m-3">
-        <a href="{{ path('admin_administrator_index') }}">back to list</a>
-            Back
-        </a>
+        <div class="card col-xs-10 offset-xs-1 col-md-8 offset-md-2">
+            <div class="card-body">
+                {{ include('adminAdministrator/_form.html.twig', {'button_label': 'Update'}) }}
+                <a href="{{ path('admin_administrator_index') }}" class="btn btn-outline-dark col-2 m-1">Back</a>
+            </div>
+        </div>
     </section>
 
 {% endblock %}

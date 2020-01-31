@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Representation index{% endblock %}
+{% block title %}SchoolClass index{% endblock %}
 
 {% block body %}
 
@@ -19,17 +19,17 @@
 
     <section id="card" class="m-3">
         <div class="row d-flex justify-content-around ">
-            {% for school_classe in school_classes %}
+            {% for classe in classes %}
                 <div class="card col-xs-11 col-md-5 flex-row m-1">
                     <div class="card-body col-9 align-self-center">
                         <h5 class="card-title">
-                            {{ school_classe.name }}
+                            {{ classe.name }}
                         </h5>
                     </div>
                     <div class="align-self-center col-2">
                         <a class="btn btn-outline-primary"
-                           href="{{ path('admin_class_edit', {'id': school_classe.id}) }}">
-                            Modify
+                           href="{{ path('admin_class_show', {'id': classe.id}) }}">
+                            Show
                         </a>
                         {{ include('adminSchoolClass/_delete_form.html.twig') }}
                     </div>

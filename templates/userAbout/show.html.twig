@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SchoolClass{% endblock %}
+
+{% block body %}
+
+    <section class="card border-secondary bg-primary text-white m-3">
+        <h1 class="text-center text-uppercase p-3">
+            {{ artist.name|upper }}
+        </h1>
+    </section>
+
+    <section class="m-3">
+        <div class="card col-xs-10 offset-xs-1 col-md-8 offset-md-2 bg-primary text-white">
+            <img class="card-img-top col-8 offset-2 mt-3 mb-2" src="{{ artist.picture }}"
+                 alt="Card {{ artist.name }}" height="200px">
+            <div class="card-body">
+                <h5 class="card-title">{{ artist.name }}</h5>
+                <p class="card-text">{{ artist.description }}</p>
+                <p class="card-text">{{ artist.description }}</p>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="m-3">
+        <a class="btn btn-dark" href="{{ path('about_index') }}">Back</a>
+    </section>
+
+{% endblock %}

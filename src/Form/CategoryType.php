@@ -21,12 +21,9 @@ class CategoryType extends AbstractType
                 'class' => SchoolClass::class,
                 'choice_label' => 'name',
                 'multiple' => true,
+                'expanded' => true,
             ])
-            ->add('imageFile', VichFileType::class, array(
-                'required' => false,
-                'allow_delete' => true, // not mandatory, default is true
-                'download_link' => false, // not mandatory, default is true
-            ))
+            ->add('picture', TextType::class)
         ;
     }
 

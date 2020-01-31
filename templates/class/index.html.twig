@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SchoolClass index{% endblock %}
+
+{% block body %}
+
+    <section class="card border-secondary bg-primary text-white m-3">
+        <h1 class="text-center text-uppercase p-3">
+            Choose the courses you want and let yourself be guided
+        </h1>
+    </section>
+
+    <section class="m-5">
+        <div class="row d-flex justify-content-center">
+
+            {% for class in classes %}
+            <div class="col-xs-6 col-md-3">
+                <div class="card m-1 border-secondary bg-primary text-white">
+                    <img class="card-img-top" src="{{ class.picture }}" alt="Card {{class.name}}">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">{{class.name}}</h5>
+                        <p class="card-text text-center">{{class.description|u.truncate(60, '...')}}</p>
+                        {% if app.user %}
+                            <div class="d-flex justify-content-center">
+                                <a href="{{path('class_show', {'id': class.id})}}"
+                                   class="btn btn-secondary">Choose</a>
+                            </div>
+                        {% else %}
+                            <div class="d-flex justify-content-center">
+                                <a class="btn btn-outline-warning"
+                                   href="{{ path('app_login') }}">Log In</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </section>
+
+{% endblock %}

@@ -47,6 +47,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ;
     }
 
+    public function countAdmin(): int
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.roles LIKE :role')
+            ->setParameter('role', '%'.User::ROLE_ADMIN.'%')
+            ->select('COUNT(u.id)')
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
+
     public function findUser(): array
     {
         return $this->createQueryBuilder('u')
@@ -55,6 +66,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->orderBy('u.lastName')
             ->getQuery()
             ->getResult()
+            ;
+    }
+
+    public function countUser(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.roles NOT LIKE :role')
+            ->setParameter('role', '%'.User::ROLE_ADMIN.'%')
+            ->select('COUNT(u.id)')
+            ->getQuery()
+            ->getSingleScalarResult()
             ;
     }
 }

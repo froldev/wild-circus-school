@@ -6,13 +6,10 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
- * @Vich\Uploadable
  */
 class Category
 {
@@ -25,26 +22,15 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Unique
      * @Assert\NotBlank
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
      */
-    private $image;
-
-    /**
-     * @Vich\UploadableField(mapping="user_image", fileNameProperty="image")
-     * @Assert\Image(mimeTypes={"image/png", "image/jpeg", "image/jpg", "image/gif"})
-     */
-    private $imageFile;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $updatedAt;
+    private $picture;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SchoolClass", mappedBy="category")
@@ -75,32 +61,16 @@ class Category
         return $this;
     }
 
-    public function setImageFile(File $image = null)
+    public function getPicture(): ?string
     {
-        $this->imageFile = $image;
-
-        // VERY IMPORTANT:
-        // It is required that at least one field changes if you are using Doctrine,
-        // otherwise the event listeners won't be called and the file is lost
-        if ($image) {
-            // if 'updatedAt' is not defined in your entity, use another property
-            $this->updatedAt = new \DateTime('now');
-        }
+        return $this->picture;
     }
 
-    public function getImageFile()
+    public function setPicture(?string $picture): self
     {
-        return $this->imageFile;
-    }
+        $this->picture = $picture;
 
-    public function setImage($image)
-    {
-        $this->image = $image;
-    }
-
-    public function getImage()
-    {
-        return $this->image;
+        return $this;
     }
 
     /**
@@ -130,18 +100,6 @@ class Category
                 $schoolClass->setCategory(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?DateTime
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(DateTime $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }

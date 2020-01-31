@@ -47,17 +47,7 @@ class InscriptionController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-    /**
-     * @Route("/{id}", name="inscription_show", methods={"GET"})
-     */
-    public function show(Inscription $inscription): Response
-    {
-        return $this->render('inscription/show.html.twig', [
-            'inscription' => $inscription,
-        ]);
-    }
-
+    
     /**
      * @Route("/{id}/edit", name="inscription_edit", methods={"GET","POST"})
      */

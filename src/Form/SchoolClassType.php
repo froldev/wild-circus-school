@@ -27,26 +27,8 @@ class SchoolClassType extends AbstractType
             ->add('startDate', DateType::class, [
                 'widget' => 'single_text',
             ])
-            ->add('imageFile', VichFileType::class, array(
-                'required' => false,
-                'allow_delete' => true, // not mandatory, default is true
-                'download_link' => false, // not mandatory, default is true
-            ))
+            ->add('picture', TextType::class)
             ->add('description', TextareaType::class)
-            ->add('artist', EntityType::class, [
-                'class' => Artist::class,
-                'choice_label' => 'name',
-                'multiple' => true,
-                'expanded' => true,
-            ])
-            ->add('inscription', EntityType::class, [
-                'class' => Inscription::class,
-                'choice_label' => 'id',
-            ])
-            ->add('category', EntityType::class, [
-                'class' => Category::class,
-                'choice_label' => 'name',
-            ])
         ;
     }
 

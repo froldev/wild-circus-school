@@ -19,32 +19,12 @@ class InternshipRepository extends ServiceEntityRepository
         parent::__construct($registry, Internship::class);
     }
 
-    // /**
-    //  * @return Internship[] Returns an array of Internship objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function countInternShips(): int
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('COUNT(i.id)')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getSingleScalarResult()
+            ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Internship
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

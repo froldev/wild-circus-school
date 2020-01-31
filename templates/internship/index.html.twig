@@ -3,39 +3,39 @@
 {% block title %}Internship index{% endblock %}
 
 {% block body %}
-    <h1>Internship index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>StartDate</th>
-                <th>Picture</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for internship in internships %}
-            <tr>
-                <td>{{ internship.id }}</td>
-                <td>{{ internship.name }}</td>
-                <td>{{ internship.description }}</td>
-                <td>{{ internship.startDate ? internship.startDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ internship.picture }}</td>
-                <td>
-                    <a href="{{ path('internship_show', {'id': internship.id}) }}">show</a>
-                    <a href="{{ path('internship_edit', {'id': internship.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <section class="card border-secondary bg-primary text-white m-3">
+        <h1 class="text-center text-uppercase p-3">
+            Choose the internship you want and become the biggest
+        </h1>
+    </section>
 
-    <a href="{{ path('internship_new') }}">Create new</a>
+    <section class="m-5">
+        <div class="row d-flex justify-content-center">
+
+            {% for internship in internships %}
+                <div class="col-xs-6 col-md-3">
+                    <div class="card m-1 border-secondary bg-primary text-white">
+                        <img class="card-img-top" src="{{ internship.picture }}" alt="Card {{internship.name}}">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{internship.name}}</h5>
+                            <p class="card-text text-center">{{internship.description|u.truncate(60, '...')}}</p>
+                            {% if app.user %}
+                                <div class="d-flex justify-content-center">
+                                    <a href="{{ path('internship_show', {'id': internship.id}) }}"
+                                       class="btn btn-secondary">Choose</a>
+                                </div>
+                            {% else %}
+                                <div class="d-flex justify-content-center">
+                                    <a class="btn btn-outline-warning" href="{{ path('app_login') }}">Log In</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </section>
+
 {% endblock %}

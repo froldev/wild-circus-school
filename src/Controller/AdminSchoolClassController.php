@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Artist;
+use App\Entity\Category;
 use App\Entity\SchoolClass;
 use App\Form\SchoolClassType;
 use App\Repository\SchoolClassRepository;
@@ -22,8 +24,8 @@ class AdminSchoolClassController extends AbstractController
      */
     public function index(SchoolClassRepository $schoolClassRepository): Response
     {
-        return $this->render('adminClass/index.html.twig', [
-            'school_classes' => $schoolClassRepository->findAll(),
+        return $this->render('adminSchoolClass/index.html.twig', [
+            'classes' => $schoolClassRepository->findAll(),
         ]);
     }
 
@@ -45,8 +47,8 @@ class AdminSchoolClassController extends AbstractController
             return $this->redirectToRoute('admin_class_index');
         }
 
-        return $this->render('adminClass/new.html.twig', [
-            'school_class' => $schoolClass,
+        return $this->render('adminSchoolClass/new.html.twig', [
+            'class' => $schoolClass,
             'form' => $form->createView(),
         ]);
     }
@@ -57,8 +59,8 @@ class AdminSchoolClassController extends AbstractController
      */
     public function show(SchoolClass $schoolClass): Response
     {
-        return $this->render('adminClass/show.html.twig', [
-            'school_class' => $schoolClass,
+        return $this->render('adminSchoolClass/show.html.twig', [
+            'class' => $schoolClass,
         ]);
     }
 
@@ -66,19 +68,23 @@ class AdminSchoolClassController extends AbstractController
      * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN", statusCode=404)
      */
-    public function edit(Request $request, SchoolClass $schoolClass): Response
-    {
+    public function edit(
+        Request $request,
+        SchoolClass $schoolClass,
+        Artist $artist
+    ): Response {
         $form = $this->createForm(SchoolClassType::class, $schoolClass);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $schoolClass->addArtist($artist);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('admin_class_index');
         }
 
-        return $this->render('adminClass/edit.html.twig', [
-            'school_class' => $schoolClass,
+        return $this->render('adminSchoolClass/edit.html.twig', [
+            'class' => $schoolClass,
             'form' => $form->createView(),
         ]);
     }

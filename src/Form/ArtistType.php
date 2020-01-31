@@ -20,11 +20,7 @@ class ArtistType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('description', TextareaType::class)
-            ->add('imageFile', VichFileType::class, array(
-                'required' => false,
-                'allow_delete' => true, // not mandatory, default is true
-                'download_link' => false, // not mandatory, default is true
-            ))
+            ->add('picture', TextType::class)
             ->add('schoolClass', EntityType::class, [
                 'class'         => SchoolClass::class,
                 'choice_label'  => 'name',

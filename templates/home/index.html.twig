@@ -4,4 +4,99 @@
 
 {% block body %}
 
+    <section>
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{{ asset('build/images/home.jpg') }}" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>GET A THRILLING EXPERIENCE</h5>
+                    <p>Experience an exciting range of circus skills including trapeze, tightwire, juggling and acrobatics</p>
+                    <a class="btn btn-primary" href="{{ path('about_index') }}">Read More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-dark">
+        <div class="bg-dark text-white">
+            <h1 class="text-center text-uppercase p-3">
+                Our Classes
+            </h1>
+        </div>
+        <div class="row d-flex justify-content-center">
+            {% for class in classes|slice(0, 6) %}
+                <div class="col-xs-6 col-md-4 d-flex justify-content-center">
+                    <div class="card card-class bg-dark text-white">
+                        <img src="{{class.picture}}" alt="{{class.name}}" height="200">
+                        <div class="card-caption d-none d-md-block">
+                            <h5 class="text-center">{{ class.name }}</h5>
+                            {% if app.user %}
+                                <div class="d-flex justify-content-center">
+                                    <a class="btn btn-primary m-1"
+                                       href="{{ path('class_show', {'id': class.id}) }}">Show</a>
+                                </div>
+                            {% else %}
+                                <div class="d-flex justify-content-center">
+                                    <a class="btn btn-outline-warning m-1"
+                                       href="{{ path('app_login') }}">Log In</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="bg-primary">
+        <div class="bg-primary text-white">
+            <h1 class="text-center text-uppercase p-3">
+                Our Internships
+            </h1>
+        </div>
+        <div class="row d-flex justify-content-center">
+            {% for internship in internships|slice(0, 4) %}
+            <div class="col-3">
+                <div class="card card-internship bg-primary text-white">
+                    <img src="{{internship.picture}}" alt="{{internship.name}}" height="200">
+                    <div class="card-caption d-none d-md-block">
+                        <h5 class="text-center">{{ internship.name }}</h5>
+                        {% if app.user %}
+                            <div class="d-flex justify-content-center">
+                                <a class="btn btn-dark m-1"
+                                   href="{{ path('internship_show', {'id': internship.id}) }}">Show</a>
+                            </div>
+                        {% else %}
+                            <div class="d-flex justify-content-center">
+                                <a class="btn btn-outline-warning m-1" href="{{ path('app_login') }}">Log In</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="bg-dark">
+        <div class="card bg-dark text-primary">
+            <h1 class="text-center text-uppercase p-3">
+                Our Partners
+            </h1>
+        </div>
+        <div class="row">
+            {% for partner in partners %}
+                <div class="col-2">
+                    <div class="card">
+                        <a href="{{ partner.link }}" target="_blank">
+                        <img src="{{partner.picture}}" alt="{{partner.name}}" height="50">
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
 {% endblock %}

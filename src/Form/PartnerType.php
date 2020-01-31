@@ -6,6 +6,7 @@ use App\Entity\Inscription;
 use App\Entity\Partner;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,16 +18,8 @@ class PartnerType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('imageFile', VichFileType::class, array(
-                'required' => false,
-                'allow_delete' => true, // not mandatory, default is true
-                'download_link' => false, // not mandatory, default is true
-            ))
+            ->add('picture', TextType::class)
             ->add('link', TextType::class)
-            ->add('inscription', EntityType::class, [
-                'class' => Inscription::class,
-                'choice_label' => 'id',
-            ])
         ;
     }
 

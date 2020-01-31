@@ -10,7 +10,7 @@ use Faker;
 
 class SchoolClassFixtures extends Fixture
 {
-    const NUMBER_CLASS = 12;
+    const NUMBER_CLASS = 8;
 
     public function load(ObjectManager $manager): void
     {
@@ -21,8 +21,8 @@ class SchoolClassFixtures extends Fixture
             $schoolClass->setDuration($faker->numberBetween($min = 4, $max = 24));
             $schoolClass->setPrice($faker->numberBetween($min = 1000, $max = 8000));
             $schoolClass->setDescription($faker->text($maxNbChars = 200));
+            $schoolClass->setPicture($faker->imageUrl($width = 400, $height = 400));
             $schoolClass->setStartDate($faker->dateTime($max = 'now', $timezone = null));
-            $schoolClass->setImage($faker->imageUrl($width = 640, $height = 480, 'fashion'));
             $schoolClass->setCategory($this->getReference('category_'.rand(0, 9), $schoolClass));
             $manager->persist($schoolClass);
         }

@@ -1,1 +1,16 @@
 $primary:#F76C6B;
+$dark:#000000;
+
+.card {
+    box-shadow:10px 10px 20px grey;
+}
+
+.card-internship {
+    box-shadow:none;
+    border:dark;
+}
+
+.card-class {
+    box-shadow:none;
+    border:white;
+}

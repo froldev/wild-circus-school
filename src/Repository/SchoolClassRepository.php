@@ -19,32 +19,12 @@ class SchoolClassRepository extends ServiceEntityRepository
         parent::__construct($registry, SchoolClass::class);
     }
 
-    // /**
-    //  * @return SchoolClass[] Returns an array of SchoolClass objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function countClasses(): int
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getSingleScalarResult()
+            ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?SchoolClass
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New User{% endblock %}
+
+{% block body %}
+
+    <section class="card border-secondary bg-primary text-white m-3">
+        <h1 class="text-center text-uppercase p-3">
+            My Account
+        </h1>
+    </section>
+
+    <section class="m-3">
+        <div class="card col-xs-10 offset-xs-1 col-md-8 offset-md-2">
+            <div class="card-body">
+                {{ include('user/_form.html.twig') }}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

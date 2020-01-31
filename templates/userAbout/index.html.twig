@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Wild Circus School || About{% endblock %}
+
+{% block body %}
+
+    <section class="card border-secondary bg-primary text-white m-3">
+        <h1 class="text-center text-uppercase p-3">
+            About
+        </h1>
+    </section>
+
+    <section class="card m-3 bg-dark text-white">
+        <div class="row">
+            <p class="card-text p-5">Our costumes are handmade. Our animals are trained by us.
+                Our decorations are painted in the barns of our farm.
+                We burn midnight oil to create new visions for the show.
+                That's all we do. The circus is our job, our life, our love.
+                Come to the circus and be part of the magic.
+                Join our training and become the greatest magician or acrobat.</p>
+        </div>
+        <div class="d-flex justify-content-center mb-3">
+            <img src="{{ asset('build/images/about.jpg') }}" class="d-block" height="300" alt="about">
+        </div>
+    </section>
+
+    <section class="card border-secondary bg-primary text-white m-3">
+        <h1 class="text-center text-uppercase p-3">
+            Our Team
+        </h1>
+    </section>
+
+    <section>
+        <div class="row d-flex justify-content-center">
+
+            {% for artist in artists %}
+                <div class="col-4">
+                    <div class="card bg-dark text-white m-2">
+                        <img src="{{ artist.picture }}" alt="{{ artist.name }}" height="300px">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{ artist.name }}</h5>
+                            {% if app.user %}
+                                <div class="d-flex justify-content-center">
+                                    <a class="btn btn-warning"
+                                       href="{{ path('about_show', {'id': artist.id}) }}">Show</a>
+                                </div>
+                            {% else %}
+                                <div class="d-flex justify-content-center">
+                                    <a class="btn btn-outline-warning m-1"
+                                       href="{{ path('app_login') }}">Log In</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </section>
+
+{% endblock %}

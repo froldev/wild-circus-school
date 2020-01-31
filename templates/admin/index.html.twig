@@ -4,4 +4,74 @@
 
 {% block body %}
 
+    <section id="accueil-admin">
+        <div class="row">
+            <div class="col-12">
+
+                <div id="accueil-titre" class="d-flex align-items-center flex-column">
+                    <h3 class="mt-2 p-2">Welcome to the space of</h3>
+                    <h1 class="mt-2 p-2">Wild Circus School</h1>
+                </div>
+
+                <div class="container mt-3">
+                    <div class="row d-flex justify-content-around">
+                        <a class="btn btn-primary border-secondary btn-lg
+                            col-xs-12 col-md-4"
+                           href="{{ path('admin_class_index') }}">
+                            <div class="card-body">
+                                <i class="fa fa-landmark text-white"></i>
+                                <h2 class="card-number text-white">{{ numberClass }}</h2>
+                                {% if numberClass > 1 %}
+                                    <h3 class="card-title text-white">School Classes</h3>
+                                {% else %}
+                                    <h3 class="card-title text-white">School Class</h3>
+                                {% endif %}
+                            </div>
+                        </a>
+                        <a class="btn btn-primary border-secondary btn-lg
+                            col-xs-12 col-md-4"
+                           href="{{ path('admin_internship_index') }}">
+                            <div class="card-body">
+                                <i class="fa fa-user-shield text-white"></i>
+                                <h2 class="card-number text-white">{{ numberInternship }}</h2>
+                                {% if numberInternship > 1 %}
+                                    <h3 class="card-title text-white">Intern Ships</h3>
+                                {% else %}
+                                    <h3 class="card-title text-white">Intern Ship</h3>
+                                {% endif %}
+                            </div>
+                        </a>
+                        <a class="btn btn-primary border-secondary btn-lg
+                            col-xs-12 col-md-4"
+                           href="{{ path('admin_category_index') }}">
+                            <div class="card-body">
+                                <i class="fa fa-file-signature text-white"></i>
+                                <h2 class="card-number text-white">{{ numberCategory }}</h2>
+                                {% if numberCategory > 1 %}
+                                    <h3 class="card-title text-white">Categories</h3>
+                                {% else %}
+                                    <h3 class="card-title text-white">Category</h3>
+                                {% endif %}
+                            </div>
+                        </a>
+                        <a class="btn btn-primary border-secondary btn-lg
+                            col-xs-12 col-md-4"
+                           href="{{ path('admin_artist_index') }}">
+                            <div class="card-body">
+                                <i class="fa fa-sitemap text-white"></i>
+                                <h2 class="card-number text-white">{{ numberArtist }}</h2>
+                                {% if numberArtist > 1 %}
+                                    <h3 class="card-title text-white">Artists</h3>
+                                {% else %}
+                                    <h3 class="card-title text-white">Artist</h3>
+                                {% endif %}
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
 {% endblock %}

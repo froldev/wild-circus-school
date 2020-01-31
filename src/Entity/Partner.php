@@ -4,13 +4,10 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PartnerRepository")
- * @Vich\Uploadable
  */
 class Partner
 {
@@ -23,26 +20,15 @@ class Partner
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Unique
      * @Assert\NotBlank
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
      */
-    private $image;
-
-    /**
-     * @Vich\UploadableField(mapping="user_image", fileNameProperty="image")
-     * @Assert\Image(mimeTypes={"image/png", "image/jpeg", "image/jpg", "image/gif"})
-     */
-    private $imageFile;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $updatedAt;
+    private $picture;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -66,28 +52,16 @@ class Partner
         return $this;
     }
 
-    public function setImageFile(File $image = null)
+    public function getPicture(): ?string
     {
-        $this->imageFile = $image;
-
-        if ($image) {
-            $this->updatedAt = new \DateTime('now');
-        }
+        return $this->picture;
     }
 
-    public function getImageFile()
+    public function setPicture(?string $picture): self
     {
-        return $this->imageFile;
-    }
+        $this->picture = $picture;
 
-    public function setImage($image)
-    {
-        $this->image = $image;
-    }
-
-    public function getImage()
-    {
-        return $this->image;
+        return $this;
     }
 
     public function getLink(): ?string
@@ -98,18 +72,6 @@ class Partner
     public function setLink(string $link): self
     {
         $this->link = $link;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?DateTime
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(DateTime $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }
